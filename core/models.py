@@ -1,14 +1,16 @@
 from django.db import models
 
+
+
 class Base(models.Model):
     criacao=models.DateTimeField(auto_now_add=True)
-    actualizao=models.DateTimeField(auto_now=True)
-    ativo=models.BooleanField(default=True)
+    actualizacao=models.DateTimeField(auto_now=True)
+    activo=models.BooleanField(default=True)
 
     class Meta:
         abstract= True
 
-class Curso(models.Model):
+class Curso(Base):
     titulo=models.CharField(max_length=255)
     url=models.URLField(unique=True)
 
@@ -20,11 +22,11 @@ class Curso(models.Model):
         return self.titulo
 
 class Avaliacao(Base):
-    curso=models.ForeignKey(Curso, related_name='avaliacoes' ,on_delete=models.CASCADE)
+    curso=models.ForeignKey('Curso', related_name='avaliacoes' ,on_delete=models.CASCADE)
     nome=models.CharField(max_length=255)
     email=models.EmailField()
     comentario=models.TextField(blank=True, default='')
-    Avaliacao=models.DecimalField(max_digits=2, decimal_places=1)
+    avaliacao=models.DecimalField(max_digits=2, decimal_places=1)
 
     class Meta:
         verbose_name = "Avaliacao"
